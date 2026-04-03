@@ -1,6 +1,6 @@
 package com.Zorvyn.finance_data_service.enums;
 
-public enum Type {
+public enum RecordType {
     INCOME,
     EXPENSE
 }
