@@ -1,18 +1,22 @@
 package com.Zorvyn.finance_data_service;
 
 import com.Zorvyn.finance_data_service.dto.request.CreateUserRequest;
+import com.Zorvyn.finance_data_service.dto.request.UpdateUserRequest;
 import com.Zorvyn.finance_data_service.dto.response.UserResponse;
 import com.Zorvyn.finance_data_service.entities.User;
 import com.Zorvyn.finance_data_service.enums.Status;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserDTOConversion {
 
-    @Mapping( target = "status", constant= "ACTIVE")
-    public User mapRequestUserToUser(CreateUserRequest request);
+    @Mapping(target = "status", constant = "ACTIVE")
+    User mapRequestUserToUser(CreateUserRequest request);
 
-    public UserResponse mapUserToUserResponse(User user);
+    UserResponse mapUserToUserResponse(User user);
+
+    User mapUpdateUserRequestToUser(UpdateUserRequest request, @MappingTarget User user);
 
 }

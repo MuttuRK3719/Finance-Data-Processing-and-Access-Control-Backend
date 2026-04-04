@@ -20,6 +20,6 @@ public class FinanceDataServiceApplication {
 		req.setName("Test");
 		req.setRole(Role.VIEWER);
 		req.setPassword("Test@123");
-		service.createUser(req);
+
 	}
 }
