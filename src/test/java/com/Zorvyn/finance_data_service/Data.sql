@@ -1,4 +1,3 @@
-create  database Zorvyn;
 use  Zorvyn;
 CREATE TABLE users (
 id BIGINT AUTO_INCREMENT PRIMARY KEY,

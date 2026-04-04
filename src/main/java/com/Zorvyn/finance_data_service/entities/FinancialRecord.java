@@ -5,6 +5,7 @@ import com.Zorvyn.finance_data_service.enums.RecordType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "financial_records")
 @Getter
 @Setter
+@Component
 public class FinancialRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
