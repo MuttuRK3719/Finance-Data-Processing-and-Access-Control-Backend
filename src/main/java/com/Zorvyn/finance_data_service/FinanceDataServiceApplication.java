@@ -1,6 +1,11 @@
 package com.Zorvyn.finance_data_service;
+import com.Zorvyn.finance_data_service.dto.request.CreateRecordRequest;
 import com.Zorvyn.finance_data_service.dto.request.CreateUserRequest;
+import com.Zorvyn.finance_data_service.enums.Category;
 import com.Zorvyn.finance_data_service.enums.Role;
+import com.Zorvyn.finance_data_service.enums.TransactionType;
+import com.Zorvyn.finance_data_service.service.FinancialRecordService;
+import com.Zorvyn.finance_data_service.service.imp.FinancialRecordServiceImp;
 import com.Zorvyn.finance_data_service.service.imp.UserServiceImp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,13 +18,13 @@ public class FinanceDataServiceApplication {
 		ApplicationContext context =
 				SpringApplication.run(FinanceDataServiceApplication.class, args);
 
-		UserServiceImp service = context.getBean(UserServiceImp.class);
+		FinancialRecordService service = context.getBean(FinancialRecordServiceImp.class);
 
-		CreateUserRequest req = new CreateUserRequest();
-		req.setEmail("test@gmail.com");
-		req.setName("Test");
-		req.setRole(Role.VIEWER);
-		req.setPassword("Test@123");
-
+		CreateRecordRequest req = new CreateRecordRequest();
+		req.setAmount(10000.0);
+		req.setType(TransactionType.INCOME);
+		req.setCategory(String.valueOf(Category.SALARY));
+		req.setNotes("Deposit");
+		service.createRecord(req,"test@gmail.com");
 	}
 }

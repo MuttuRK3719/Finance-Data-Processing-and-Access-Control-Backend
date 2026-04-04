@@ -20,7 +20,7 @@ public interface FinancialRecordService {
             LocalDate endDate
     );
 
-    RecordResponse updateRecord(Long id, UpdateRecordRequest request, String requestedByEmail);
+    RecordResponse updateRecord(Long id, UpdateRecordRequest request);
 
     void deleteRecord(Long id, String requestedByEmail);
 }

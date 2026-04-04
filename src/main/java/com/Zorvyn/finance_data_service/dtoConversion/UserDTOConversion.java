@@ -1,10 +1,9 @@
-package com.Zorvyn.finance_data_service;
+package com.Zorvyn.finance_data_service.dtoConversion;
 
 import com.Zorvyn.finance_data_service.dto.request.CreateUserRequest;
 import com.Zorvyn.finance_data_service.dto.request.UpdateUserRequest;
 import com.Zorvyn.finance_data_service.dto.response.UserResponse;
 import com.Zorvyn.finance_data_service.entities.User;
-import com.Zorvyn.finance_data_service.enums.Status;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
