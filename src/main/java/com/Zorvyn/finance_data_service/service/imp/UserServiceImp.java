@@ -84,6 +84,5 @@ public class UserServiceImp implements UserService {
     private void findByEmail(String email){
         if(!userRepository.existsByEmail(email))
             throw new UserNotFound(String.format("No such user exists with email : %s", email));
-
     }
 }

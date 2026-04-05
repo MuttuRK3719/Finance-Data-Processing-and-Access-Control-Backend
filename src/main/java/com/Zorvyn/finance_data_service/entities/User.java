@@ -15,8 +15,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "users")
-@Component
 @ToString
+@Component
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,12 @@ public class User {
     private Role role;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private LocalDateTime createAt;
-    @OneToMany
-    @JoinColumn(name = "created_by")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FinancialRecord> records;
+    @PrePersist
     void setCreatedAt(){
-        createAt= LocalDateTime.now();
+        createdAt= LocalDateTime.now();
     }
 }

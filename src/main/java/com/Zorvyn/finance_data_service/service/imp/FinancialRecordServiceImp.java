@@ -85,4 +85,14 @@ public class FinancialRecordServiceImp implements FinancialRecordService {
                 orElseThrow(()->new NoRecordExists(String.format(recordNotFound,id)));
         financialRecordRepository.deleteById(id);
     }
+
+    @Override
+    public List<RecordResponse> getAllRecords() {
+        return financialRecordRepository.
+                findAll().
+                stream().
+                map(recordMapper::mapFinancialRecordToRecordResponse).
+                toList();
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.Zorvyn.finance_data_service.entities;
 
-import com.Zorvyn.finance_data_service.enums.Category;
 import com.Zorvyn.finance_data_service.enums.RecordType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,13 +23,13 @@ public class FinancialRecord {
     private Double amount;
     @Enumerated(EnumType.STRING)
     private RecordType type;
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
+    @Column(name = "transaction_date")
     private LocalDate date;
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by",nullable = false)
     private User user;
 
     @Column(name = "created_at")

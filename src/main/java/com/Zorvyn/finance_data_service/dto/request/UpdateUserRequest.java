@@ -11,5 +11,5 @@ public class UpdateUserRequest {
     private String name;
     private Status status;
     private Role role;
-    private String passward;
+    private String password;
 }

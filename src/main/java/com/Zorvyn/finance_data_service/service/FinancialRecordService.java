@@ -4,10 +4,12 @@ import com.Zorvyn.finance_data_service.dto.request.CreateRecordRequest;
 import com.Zorvyn.finance_data_service.dto.request.UpdateRecordRequest;
 import com.Zorvyn.finance_data_service.dto.response.RecordResponse;
 import com.Zorvyn.finance_data_service.enums.TransactionType;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public interface FinancialRecordService {
     RecordResponse createRecord(CreateRecordRequest request, String requestedByEmail);
 
@@ -23,4 +25,7 @@ public interface FinancialRecordService {
     RecordResponse updateRecord(Long id, UpdateRecordRequest request);
 
     void deleteRecord(Long id, String requestedByEmail);
+
+    List<RecordResponse> getAllRecords();
+
 }

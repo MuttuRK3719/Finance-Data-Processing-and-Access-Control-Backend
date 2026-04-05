@@ -11,7 +11,7 @@ public interface DashboardService {
     BigDecimal getTotalIncome();
     BigDecimal getTotalExpense();
     BigDecimal getNetBalance();
-    Map<String, BigDecimal> getCategoryWiseTotals();
+    Map<String, Double> getCategoryWiseTotals();
     List<RecordResponse> getRecentActivity();
     DashboardResponse getFullSummary();
 
