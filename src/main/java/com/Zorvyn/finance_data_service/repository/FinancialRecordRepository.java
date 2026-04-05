@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,6 @@ public interface FinancialRecordRepository  extends JpaRepository<FinancialRecor
             "GROUP BY category ")
     List<Object[]> groupByCategoryRaw();
 
-    List<FinancialRecord> findByTransactionDateAfter(LocalDate date);
+    List<FinancialRecord> findByTransactionDateAfter(LocalDateTime date);
 
 }

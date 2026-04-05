@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,7 +62,7 @@ public class DashBoardServiceImp implements DashboardService {
 
         return financialRecordRepository
                 .findByTransactionDateAfter(
-                        LocalDate.now().minusMonths(2))
+                        LocalDateTime.now().minusMonths(1))
                 .stream()
                 .map(mappers::mapFinancialRecordToRecordResponse).toList();
     }
@@ -74,6 +75,6 @@ public class DashBoardServiceImp implements DashboardService {
         dashboardResponse.setTotalExpense(getTotalExpense());
         dashboardResponse.setRecentActivity(getRecentActivity());
         dashboardResponse.setCategoryWiseTotals(getCategoryWiseTotals());
-        return null;
+        return dashboardResponse;
     }
 }

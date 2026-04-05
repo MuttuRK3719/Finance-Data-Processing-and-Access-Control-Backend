@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +40,6 @@ public class FinancialRecordServiceImp implements FinancialRecordService {
         FinancialRecord record = recordMapper
                 .mapCreateRecordRequestToFinancialRecord(request);
 
-        // 🔥 set relationship properly
         record.setUser(user);
         user.getRecords().add(record);
 
@@ -117,5 +115,4 @@ public class FinancialRecordServiceImp implements FinancialRecordService {
                 map(recordMapper::mapFinancialRecordToRecordResponse).
                 toList();
     }
-
 }
