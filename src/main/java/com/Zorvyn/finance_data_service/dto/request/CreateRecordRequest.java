@@ -15,6 +15,5 @@ public class CreateRecordRequest {
     private Double amount;
     private TransactionType type;
     private String category;
-    private LocalDate date;
     private String notes;
 }

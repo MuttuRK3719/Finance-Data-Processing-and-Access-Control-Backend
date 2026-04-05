@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -13,7 +14,7 @@ public class RecordResponse {
     private Double amount;
     private TransactionType type;
     private String category;
-    private LocalDate date;
+    private LocalDateTime transactionDate;
     private String notes;
     private String createdByName;
 }

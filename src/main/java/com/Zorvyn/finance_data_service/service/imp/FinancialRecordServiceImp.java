@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,20 +33,28 @@ public class FinancialRecordServiceImp implements FinancialRecordService {
 
     @Override
     public RecordResponse createRecord(CreateRecordRequest request, String requestedByEmail) {
-        if (!userRepository.existsByEmail(requestedByEmail))
-            throw new UserNotFound(String.format("No such user exists with email : %s", requestedByEmail));
-        Optional<User> user = userRepository.findByEmail(requestedByEmail);
-        FinancialRecord record = recordMapper.mapCreateRecordRequestToFinancialRecord(request);
-        record.setUser(user.get());
-        Optional<FinancialRecord> respondedRecord = Optional.of(financialRecordRepository.save(record));
-        return recordMapper.mapFinancialRecordToRecordResponse(respondedRecord.get());
+
+        User user = userRepository.findByEmail(requestedByEmail)
+                .orElseThrow(() -> new UserNotFound(
+                        "No such user exists with email: " + requestedByEmail));
+
+        FinancialRecord record = recordMapper
+                .mapCreateRecordRequestToFinancialRecord(request);
+
+        // 🔥 set relationship properly
+        record.setUser(user);
+        user.getRecords().add(record);
+
+        FinancialRecord savedRecord = financialRecordRepository.save(record);
+
+        return recordMapper.mapFinancialRecordToRecordResponse(savedRecord);
     }
 
     @Override
     public RecordResponse getRecordById(Long id) {
-        FinancialRecord record=financialRecordRepository.
+        FinancialRecord record = financialRecordRepository.
                 findById(id).
-                orElseThrow(()->new NoRecordExists(String.format(recordNotFound,id)));
+                orElseThrow(() -> new NoRecordExists(String.format(recordNotFound, id)));
 
         return recordMapper.mapFinancialRecordToRecordResponse(record);
     }
@@ -69,20 +78,34 @@ public class FinancialRecordServiceImp implements FinancialRecordService {
 
 
     @Override
-    public RecordResponse updateRecord(Long id, UpdateRecordRequest request) {
-        FinancialRecord record=financialRecordRepository.
-                findById(id).
-                orElseThrow(()->new NoRecordExists(String.format(recordNotFound,id)));
-        FinancialRecord updatedRecord= recordMapper.mapUpdateRecordRequestToFinancialRecord(request,record);
-        financialRecordRepository.save(updatedRecord);
-        return  recordMapper.mapFinancialRecordToRecordResponse(updatedRecord);
+    @Transactional
+    public RecordResponse updateRecord(Long id, UpdateRecordRequest request, String email) {
+
+        FinancialRecord record = financialRecordRepository.findById(id)
+                .orElseThrow(() -> new NoRecordExists(String.format(recordNotFound, id)));
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFound("User not found"));
+
+        if (!record.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You are not allowed to update this record");
+        }
+        recordMapper.mapUpdateRecordRequestToFinancialRecord(request, record);
+        FinancialRecord updatedRecord = financialRecordRepository.save(record);
+
+        return recordMapper.mapFinancialRecordToRecordResponse(updatedRecord);
     }
 
     @Override
     public void deleteRecord(Long id, String requestedByEmail) {
-        FinancialRecord record=financialRecordRepository.
+        FinancialRecord record = financialRecordRepository.
                 findById(id).
-                orElseThrow(()->new NoRecordExists(String.format(recordNotFound,id)));
+                orElseThrow(() -> new NoRecordExists(String.format(recordNotFound, id)));
+        User user = userRepository.findByEmail(requestedByEmail)
+                .orElseThrow(() -> new UserNotFound("User not found"));
+        if (!record.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized: You cannot delete someone else's record!");
+        }
         financialRecordRepository.deleteById(id);
     }
 

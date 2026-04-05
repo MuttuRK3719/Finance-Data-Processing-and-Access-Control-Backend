@@ -20,7 +20,7 @@ public class FinancialRecordSpecification {
     public static Specification<FinancialRecord> dateBetween(LocalDate start, LocalDate end) {
         return (root, query, cb) -> {
             if (start == null || end == null) return null;
-            return cb.between(root.get("date"), start, end);
+            return cb.between(root.get("transactionDate"), start, end);
         };
     }
 }

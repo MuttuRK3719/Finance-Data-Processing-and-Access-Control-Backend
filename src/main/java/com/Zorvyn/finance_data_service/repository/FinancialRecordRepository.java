@@ -25,15 +25,15 @@ public interface FinancialRecordRepository  extends JpaRepository<FinancialRecor
 
     List<FinancialRecord> findByCategory(String category);
 
-    List<FinancialRecord> findByDateBetween(LocalDate start, LocalDate end);
+    List<FinancialRecord> findByTransactionDateBetween(LocalDate start, LocalDate end);
 
     @Query("SELECT SUM(amount) FROM FinancialRecord where type=:transactionType")
-    BigDecimal sumByTransactionType(@Param("transactionType") RecordType transactionType);
+    BigDecimal sumByTransactionType(@Param("transactionType") TransactionType transactionType);
 
     @Query("SELECT category,SUM(amount) FROM FinancialRecord " +
             "GROUP BY category ")
     List<Object[]> groupByCategoryRaw();
 
-    List<FinancialRecord> findByDateAfter(LocalDate date);
+    List<FinancialRecord> findByTransactionDateAfter(LocalDate date);
 
 }

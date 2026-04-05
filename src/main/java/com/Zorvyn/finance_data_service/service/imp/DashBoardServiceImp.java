@@ -4,6 +4,7 @@ import com.Zorvyn.finance_data_service.dto.response.DashboardResponse;
 import com.Zorvyn.finance_data_service.dto.response.RecordResponse;
 import com.Zorvyn.finance_data_service.dtoConversion.FinancialRecordsDTOConversion;
 import com.Zorvyn.finance_data_service.enums.RecordType;
+import com.Zorvyn.finance_data_service.enums.TransactionType;
 import com.Zorvyn.finance_data_service.repository.FinancialRecordRepository;
 import com.Zorvyn.finance_data_service.repository.UserRepository;
 import com.Zorvyn.finance_data_service.service.DashboardService;
@@ -30,12 +31,12 @@ public class DashBoardServiceImp implements DashboardService {
 
     @Override
     public BigDecimal getTotalIncome() {
-        return  financialRecordRepository.sumByTransactionType(RecordType.INCOME);
+        return  financialRecordRepository.sumByTransactionType(TransactionType.INCOME);
     }
 
     @Override
     public BigDecimal getTotalExpense() {
-        return  financialRecordRepository.sumByTransactionType(RecordType.EXPENSE);
+        return  financialRecordRepository.sumByTransactionType(TransactionType.EXPENSE);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class DashBoardServiceImp implements DashboardService {
     public List<RecordResponse> getRecentActivity() {
 
         return financialRecordRepository
-                .findByDateAfter(
+                .findByTransactionDateAfter(
                         LocalDate.now().minusMonths(2))
                 .stream()
                 .map(mappers::mapFinancialRecordToRecordResponse).toList();

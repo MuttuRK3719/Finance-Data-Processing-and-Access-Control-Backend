@@ -1,6 +1,7 @@
 package com.Zorvyn.finance_data_service.entities;
 
 import com.Zorvyn.finance_data_service.enums.RecordType;
+import com.Zorvyn.finance_data_service.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,21 +23,19 @@ public class FinancialRecord {
     private Long id;
     private Double amount;
     @Enumerated(EnumType.STRING)
-    private RecordType type;
+    private TransactionType type;
     private String category;
     @Column(name = "transaction_date")
-    private LocalDate date;
+    private LocalDateTime transactionDate;
     private String notes;
 
     @ManyToOne
     @JoinColumn(name = "created_by",nullable = false)
     private User user;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
-
+    @PrePersist
     public void setCreated_at(){
-        created_at= LocalDateTime.now();
+        transactionDate= LocalDateTime.now();
     }
 
 }
