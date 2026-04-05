@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @ToString
-@Component
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

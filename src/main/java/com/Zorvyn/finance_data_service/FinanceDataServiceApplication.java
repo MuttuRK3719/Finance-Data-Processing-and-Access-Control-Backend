@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -22,6 +23,6 @@ public class FinanceDataServiceApplication {
 	public static void main(String[] args) {
 		ApplicationContext context =
 				SpringApplication.run(FinanceDataServiceApplication.class, args);
-
+		System.out.println(new BCryptPasswordEncoder().encode("1234"));
 	}
 }

@@ -10,28 +10,30 @@ import com.Zorvyn.finance_data_service.exceptions.DuplicateUser;
 import com.Zorvyn.finance_data_service.exceptions.UserNotFound;
 import com.Zorvyn.finance_data_service.repository.UserRepository;
 import com.Zorvyn.finance_data_service.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImp implements UserService {
-    UserRepository userRepository;
-    UserDTOConversion mapper;
+    private final UserRepository userRepository;
+    private final UserDTOConversion mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserRepository userRepository, UserDTOConversion mapper) {
-        this.userRepository=userRepository;
-        this.mapper=mapper;
-    }
+
 
     @Override
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail()))
             throw new DuplicateUser("User already exists");
-
+        User user=mapper.mapRequestUserToUser(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return mapper.mapUserToUserResponse(
-                userRepository.save(mapper.mapRequestUserToUser(request)));
+                userRepository.save(user));
     }
 
     @Override
@@ -56,6 +58,7 @@ public class UserServiceImp implements UserService {
         findById(id);
         Optional<User> user = userRepository.findById(id);
         User updatedUser = mapper.mapUpdateUserRequestToUser(request, user.get());
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         User responsedUser = userRepository.save(updatedUser);
         return mapper.mapUserToUserResponse(responsedUser);
     }
