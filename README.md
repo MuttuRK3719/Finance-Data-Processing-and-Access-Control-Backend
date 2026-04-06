@@ -193,6 +193,7 @@ DELETE /user/v1/{id}
 * Save and Update record use different HTTP methods (POST / PUT)
 
 * Filtering API uses query parameters
+  
+* If u want Postman Collection for testing the API use this json file which is located in path of src/test/java/com/Zorvyn/finance_data_service/FinanceDashBoard.postman_collection (1).json
 
 * If above steps are followed correctly, application should work without issues
-
